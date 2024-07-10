@@ -33,7 +33,7 @@
         </div>
     </div>
 </nav>
-<h3>Product List</h3>
+
 <a href="/product?action=create">
     <p>
         <c:if test='${message} != null}'>
