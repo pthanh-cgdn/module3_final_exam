@@ -48,36 +48,6 @@ public class ProductRepository {
         return null;
     }
 
-    public void remove(Product product) {
-        try {
-            Connection connection = BaseRepository.getConnection();
-            PreparedStatement preparedStatement = null;
-            preparedStatement = connection.prepareStatement("DELETE FROM codegyme.products WHERE id = ?");
-            preparedStatement.setInt(1, product.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean editProduct(int id, Product product) {
-        boolean isEdited;
-        try {
-            Connection connection = BaseRepository.getConnection();
-            PreparedStatement preparedStatement = null;
-            preparedStatement = connection.prepareStatement("UPDATE codegyme.products SET name=?, price=?, discount=?, stock=? WHERE id = ?");
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setInt(2, product.getPrice());
-            preparedStatement.setInt(3, product.getDiscount());
-            preparedStatement.setInt(4, product.getStock());
-            preparedStatement.setInt(5, id);
-            isEdited = preparedStatement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return isEdited;
-    }
-
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
         try {
@@ -130,7 +100,7 @@ public class ProductRepository {
         try {
             Connection connection = BaseRepository.getConnection();
             PreparedStatement preparedStatement = null;
-            preparedStatement = connection.prepareStatement("SELECT products.id,products.name,products.price,products.discount,products.stock, SUM(quantity) AS quantity FROM codegyme.products JOIN codegyme.order_details ON products.id = order_details.product_id JOIN codegyme.orders ON order_details.order_id = orders.id WHERE booking_date BETWEEN ? AND ? GROUP BY products.id HAVING quantity>0  ORDER BY quantity");
+            preparedStatement = connection.prepareStatement("SELECT products.id,products.name,products.price,products.discount,products.stock, SUM(quantity) AS quantity FROM codegyme.products JOIN codegyme.order_details ON products.id = order_details.product_id JOIN codegyme.orders ON order_details.order_id = orders.id WHERE booking_date BETWEEN ? AND ? GROUP BY products.id HAVING quantity>0  ORDER BY quantity DESC");
             preparedStatement.setString(1, startDate);
             preparedStatement.setString(2, endDate);
             ResultSet resultSet = preparedStatement.executeQuery();

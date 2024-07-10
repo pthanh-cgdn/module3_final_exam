@@ -26,18 +26,7 @@ public class MainController extends HttpServlet {
             case "create":
                 req.getRequestDispatcher("product/create.jsp").forward(req, resp);
                 break;
-//            case "edit":
-//                int id = Integer.parseInt(req.getParameter("id"));
-//                Product productToEdit = productService.findProductById(id);
-//                req.setAttribute("product", productToEdit);
-//                req.getRequestDispatcher("product/edit.jsp").forward(req, resp);
-//                break;
-//            case "sort":
-//                String sortBy = req.getParameter("sortBy");
-//                products = productService.sort(sortBy);
-//                req.setAttribute("products", products);
-//                req.getRequestDispatcher("product/display.jsp").forward(req, resp);
-//                break;
+
             default:
                 products = productService.getAll();
                 req.setAttribute("products", products);
